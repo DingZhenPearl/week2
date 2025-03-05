@@ -5,7 +5,8 @@
 </template>
 
 <script>
-import DataToChart from './components/dataToChart/dataToChart.vue'
+import DataToChart from './components/dataToChart/dataToChart copy.vue'
+// import DataToChart from './components/chartComp/DashBoardChartA.vue'
 
 export default {
   name: 'App',

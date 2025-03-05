@@ -80,66 +80,109 @@ export default {
         value: [new Date(),this.receiveValue[i]]
       }
     },
+    // drawLine() {
+    //   // 基于准备好的dom，初始化echarts实例
+    //   var option = {
+    //     title: {
+    //       text: '实时监控图'
+    //     },
+    //     tooltip: {
+    //       trigger: 'axis',
+    //       formatter: function(params) {
+    //         params = params[0]
+    //         var date = params.value[0]
+    //         return (
+    //             date.getSeconds() +
+    //             '/' +
+    //             date.getMinutes() +
+    //             '/' +
+    //             date.getHours() +
+    //             '/' +
+    //             ' : ' +
+    //             params.value[1]
+    //         )
+    //       },
+    //       axisPointer: {
+    //         animation: false
+    //       }
+    //     },
+    //     xAxis: {
+    //       type: 'time',
+    //       splitLine: {
+    //         show: false
+    //       }
+    //     },
+    //     yAxis: {
+    //       type: 'value',
+    //       boundaryGap: [0, '100%'],
+    //       splitLine: {
+    //         show: false
+    //       }
+    //     },
+    //     series: [
+    //       {
+    //         name: 'Fake Data',
+    //         type: 'line',
+    //         showSymbol: false,
+    //         data: this.apiData
+    //       }
+    //     ]
+    //   }
+    //   // 基于准备好的dom，初始化echarts实例
+    //   var instanceByDom = this.$echarts.getInstanceByDom(window.document.getElementById('myChart'))
+    //   var myChart = instanceByDom === undefined ? this.$echarts.init(window.document.getElementById("myChart")) : instanceByDom
+    //   // 将echarts实例内的对象清空，再重新注入
+    //   // myChart.clear()
+    //   // 使用刚指定的配置项和数据显示图表。
+    //   myChart.setOption(option)
+    //   // resetSize
+    //   window.onresize = function () {
+    //     myChart.resize();
+    //   };
+    // }
+
     drawLine() {
-      // 基于准备好的dom，初始化echarts实例
       var option = {
-        title: {
-          text: '实时监控图'
-        },
+        //图标提示框组件
         tooltip: {
-          trigger: 'axis',
-          formatter: function(params) {
-            params = params[0]
-            var date = params.value[0]
-            return (
-                date.getSeconds() +
-                '/' +
-                date.getMinutes() +
-                '/' +
-                date.getHours() +
-                '/' +
-                ' : ' +
-                params.value[1]
-            )
-          },
-          axisPointer: {
-            animation: false
-          }
+          formatter: '{a} <br/>{b} : {c}%'
         },
-        xAxis: {
-          type: 'time',
-          splitLine: {
-            show: false
-          }
-        },
-        yAxis: {
-          type: 'value',
-          boundaryGap: [0, '100%'],
-          splitLine: {
-            show: false
-          }
-        },
+        // 图表系列配置，决定图表数据怎样显示（柱状、折线、、、等）
         series: [
           {
-            name: 'Fake Data',
-            type: 'line',
-            showSymbol: false,
-            data: this.apiData
+            name: 'Pressure',
+            type: 'gauge',
+            progress: {
+              show: true
+            },
+            detail: {
+              valueAnimation: true,
+              formatter: '{value}'
+            },
+            data: [
+              {
+                value: this.receiveValue[this.Lineindex],
+                name: 'SCORE'
+              }
+            ]
           }
         ]
       }
       // 基于准备好的dom，初始化echarts实例
       var instanceByDom = this.$echarts.getInstanceByDom(window.document.getElementById('myChart'))
       var myChart = instanceByDom === undefined ? this.$echarts.init(window.document.getElementById("myChart")) : instanceByDom
-      // 将echarts实例内的对象清空，再重新注入
-      // myChart.clear()
       // 使用刚指定的配置项和数据显示图表。
       myChart.setOption(option)
       // resetSize
       window.onresize = function () {
         myChart.resize();
       };
+
     }
+
+
+
+
 
 
   }

@@ -10,6 +10,7 @@ export default {
   data() {
     return {
       apiData: [10, 20, 30, 10, 50, 80, 10, 5, 100, 55, 30],
+      //最后一个值实际上没用到
       value: 50,
       index: 0,
       timer: 'timer'
