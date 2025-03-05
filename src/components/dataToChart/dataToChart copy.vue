@@ -1,7 +1,7 @@
 <template>
   <div>
     <div id="myChart"></div>
-    <el-button @click="getData">开始绘图</el-button>
+    <el-button @click="getData" class='button'>开始绘图</el-button>
   </div>
 </template>
 
@@ -202,4 +202,8 @@ export default {
   width: 100%;
   height: 400px;
 }
+.button{
+  display: block;
+  margin: 0 auto;
+  }
 </style>
