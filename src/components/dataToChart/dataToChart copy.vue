@@ -145,7 +145,7 @@ export default {
       var option = {
         //图标提示框组件
         tooltip: {
-          formatter: '{a} <br/>{b} : {c}%'
+          formatter: '{a} <br/>{b} : {c}'
         },
         // 图表系列配置，决定图表数据怎样显示（柱状、折线、、、等）
         series: [
