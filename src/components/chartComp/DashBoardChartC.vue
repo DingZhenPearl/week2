@@ -20,6 +20,11 @@ export default {
   },
   // 钩子函数
   mounted() {
+    // 向父组件发送数据
+    this.$emit('chart-data', {
+      type: 'rating',
+      data: this.apiData
+    })
     // 该方法必须放在方法域中的最后一个
     this.drawLine()
   },
@@ -116,6 +121,17 @@ export default {
       var myChart = instanceByDom === undefined ? this.$echarts.init(window.document.getElementById("myChart")) : instanceByDom
       // 使用刚指定的配置项和数据显示图表。
       myChart.setOption(option)
+      
+      // 添加点击事件
+      myChart.off('click')
+      myChart.on('click', (params) => {
+        this.$emit('chart-click', {
+          componentType: params.componentType,
+          componentSubType: params.componentSubType,
+          value: this.apiData[0].value
+        })
+      })
+      
       // resetSize
       window.onresize = function () {
         myChart.resize();

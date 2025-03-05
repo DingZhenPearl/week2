@@ -20,6 +20,12 @@ export default {
   mounted() {
 
     this.timer = setInterval(this.handlerData, 1000)
+    // 初始化时发送数据到父组件
+    this.$emit('chart-data', {
+      type: 'gauge',
+      value: this.value,
+      name: 'SCORE'
+    })
   },
   beforeDestroy() {
     // 设置定时器后需要删除
@@ -35,6 +41,14 @@ export default {
     handlerData() {
       this.value = this.apiData[this.index]
       this.index = (this.index + 1) % 10
+      
+      // 向父组件发送更新后的数据
+      this.$emit('chart-data', {
+        type: 'gauge',
+        value: this.value,
+        name: 'SCORE'
+      })
+      
       // 该方法必须放在方法域中的最后一个
       this.drawLine()
     },
@@ -71,6 +85,18 @@ export default {
       var myChart = instanceByDom === undefined ? this.$echarts.init(window.document.getElementById("myChart")) : instanceByDom
       // 使用刚指定的配置项和数据显示图表。
       myChart.setOption(option)
+      
+      // 添加点击事件
+      myChart.off('click')
+      myChart.on('click', (params) => {
+
+        this.$emit('chart-click', {
+          componentType: params.componentType,
+          componentSubType: params.componentSubType,
+          value: this.value
+        })
+      })
+      
       // resetSize
       window.onresize = function () {
         myChart.resize();

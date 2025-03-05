@@ -1,7 +1,7 @@
 <template class="tabBarBox">
   <div class="tabBarItem">
     <div class="tabBarClass">
-      <div v-for="(item, index) in barConfigData" class="tab-bar-item" @click="navigateTo(item)">
+      <div v-for="item in barConfigData" :key="item.value" class="tab-bar-item" @click="navigateTo(item)">
         <!-- v-show指令是根据条件显示DOM元素的指令，可以用来动态控制DOM元素的显示和隐藏。 -->
         <div v-show="!item.isActive">
           <svg t="1673868145483" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2495" xmlns:xlink="http://www.w3.org/1999/xlink" width="36" height="36"><path d="M512.1 896.4c-102.6 0-199-39.9-271.5-112.5-72.5-72.5-112.5-169-112.5-271.5 0-102.6 39.9-199 112.5-271.5 72.5-72.5 169-112.5 271.5-112.5s199 39.9 271.5 112.5c72.5 72.5 112.5 169 112.5 271.5 0 102.6-39.9 199-112.5 271.5-72.5 72.5-168.9 112.5-271.5 112.5z" fill="#FFFFFF" p-id="2496"></path><path d="M512.1 192.4c43.3 0 85.2 8.4 124.5 25.1 38.1 16.1 72.3 39.2 101.8 68.6 29.4 29.4 52.5 63.7 68.6 101.8 16.7 39.4 25.1 81.3 25.1 124.5s-8.4 85.2-25.1 124.5c-16.1 38.1-39.2 72.3-68.6 101.8-29.4 29.4-63.7 52.5-101.8 68.6-39.4 16.7-81.3 25.1-124.5 25.1-43.3 0-85.2-8.4-124.5-25.1-38.1-16.1-72.3-39.2-101.8-68.6-29.4-29.4-52.5-63.7-68.6-101.8-16.7-39.4-25.1-81.3-25.1-124.5 0-43.3 8.4-85.2 25.1-124.5 16.1-38.1 39.2-72.3 68.6-101.8 29.4-29.4 63.7-52.5 101.8-68.6 39.4-16.7 81.3-25.1 124.5-25.1m0-128c-247.4 0-448 200.6-448 448s200.6 448 448 448 448-200.6 448-448c0-247.5-200.6-448-448-448z" fill="#333333" p-id="2497"></path><path d="M512 512.2m-192.3 0a192.3 192.3 0 1 0 384.6 0 192.3 192.3 0 1 0-384.6 0Z" fill="#333333" p-id="2498"></path></svg>
@@ -23,13 +23,13 @@ export default {
     return {
       barConfigData:[
           {
-            text:'标签一',
-            value:'firstTag',
-            isActive:false
+            text:'设备管理',
+            value:'basic',
+            isActive:true
           },
         {
-          text:'标签二',
-          value:'secondTag',
+          text:'数据图表',
+          value:'charts',
           isActive:false
         }
       ]
@@ -37,10 +37,8 @@ export default {
   },
   // 组件初始化前的准备操作，在此处执行
   created() {
-    // 事件监听，this.$bus.$on事件一般在此处定义
-
-    // 初始数据载入
-
+    // 初始化时触发一次选中事件
+    this.$emit('tab-change', this.barConfigData[0].value);
   },
   // 组件初始化后需要进行的操作，在此处执行
   mounted() {
@@ -49,9 +47,14 @@ export default {
   },
   // JS方法
   methods: {
-    navigateTo(e){
-      console.log(e)
-      e.isActive = !e.isActive
+    navigateTo(item){
+      // 修改点击项的状态
+      this.barConfigData.forEach(tab => {
+        tab.isActive = (tab.value === item.value);
+      });
+      
+      // 通知父组件标签切换
+      this.$emit('tab-change', item.value);
     }
   }
 }
