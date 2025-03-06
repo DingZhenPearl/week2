@@ -1,13 +1,9 @@
 <template>
   <div class="charts-container">
-    <div class="tabs-header">
-      <div 
-        v-for="(tab, index) in tabs" 
-        :key="index" 
-        :class="['tab-item', { active: activeTab === tab.name }]"
-        @click="changeTab(tab.name)">
-        {{ tab.label }}
-      </div>
+    <div class="tabs-box">
+      <el-tabs v-model="activeTab" @tab-click="handleTabClick">
+        <el-tab-pane v-for="tab in tabs" :key="tab.name" :label="tab.label" :name="tab.name"></el-tab-pane>
+      </el-tabs>
     </div>
     
     <div class="charts-content">
@@ -48,10 +44,10 @@
 </template>
 
 <script>
-import DashboardChartA from './chartComp/DashBoardChartA.vue'  // 修正路径
-import DashboardChartB from './chartComp/DashBoardChartB.vue'  // 修正路径
-import DashboardChartC from './chartComp/DashBoardChartC.vue'  // 修正路径
-import DashboardChartD from './chartComp/DashBoardChartD.vue'  // 修正路径
+import DashboardChartA from './chartComp/DashBoardChartA.vue'
+import DashboardChartB from './chartComp/DashBoardChartB.vue'
+import DashboardChartC from './chartComp/DashBoardChartC.vue'
+import DashboardChartD from './chartComp/DashBoardChartD.vue'
 
 export default {
   name: 'charts',
@@ -74,8 +70,9 @@ export default {
     }
   },
   methods: {
-    changeTab(tabName) {
-      this.activeTab = tabName
+    handleTabClick(tab) {
+      console.log('标签页切换:', tab.name);
+      this.activeTab = tab.name;
     },
     handleChartData(data) {
       console.log('收到子组件图表数据:', data)
@@ -96,21 +93,10 @@ export default {
   margin: 0 auto;
 }
 
-.tabs-header {
-  display: flex;
-  border-bottom: 1px solid #dcdfe6;
+.tabs-box {
+  width: 100%;
+  text-align: center;
   margin-bottom: 20px;
-}
-
-.tab-item {
-  padding: 10px 20px;
-  cursor: pointer;
-  transition: all 0.3s;
-}
-
-.tab-item.active {
-  color: #409eff;
-  border-bottom: 2px solid #409eff;
 }
 
 .charts-content {
