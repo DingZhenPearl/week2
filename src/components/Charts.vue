@@ -33,13 +33,7 @@
       </dashboard-chart-d>
     </div>
     
-    <!-- 显示从子组件接收的数据 -->
-    <div class="data-preview" v-if="currentChartData">
-      <h3>当前图表数据</h3>
-      <el-card>
-        <pre>{{ JSON.stringify(currentChartData, null, 2) }}</pre>
-      </el-card>
-    </div>
+
   </div>
 </template>
 
