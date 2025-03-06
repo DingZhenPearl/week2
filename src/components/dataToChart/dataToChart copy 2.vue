@@ -81,29 +81,43 @@ export default {
       }
     },
     drawLine() {
-      // 基于准备好的dom，初始化echarts实例
       var option = {
         title: {
-          text: '实时监控图'
+          text: '实时监控图',
+          left: '1%'
         },
         tooltip: {
           trigger: 'axis',
           formatter: function(params) {
-            params = params[0]
-            var date = params.value[0]
+            params = params[0];
+            var date = params.value[0];
             return (
-                date.getSeconds() +
-                '/' +
-                date.getMinutes() +
-                '/' +
-                date.getHours() +
-                '/' +
-                ' : ' +
-                params.value[1]
-            )
+              date.getSeconds() +
+              '/' +
+              date.getMinutes() +
+              '/' +
+              date.getHours() +
+              ' : ' +
+              params.value[1]
+            );
           },
           axisPointer: {
             animation: false
+          }
+        },
+        grid: {
+          left: '5%',
+          right: '15%',
+          bottom: '10%'
+        },
+        toolbox: {
+          right: 10,
+          feature: {
+            dataZoom: {
+              yAxisIndex: 'none'
+            },
+            restore: {},
+            saveAsImage: {}
           }
         },
         xAxis: {
@@ -114,42 +128,101 @@ export default {
         },
         yAxis: {
           type: 'value',
-          boundaryGap: [0, '100%'],
           splitLine: {
-            show: false
+            show: true,
+            lineStyle: {
+              type: 'dashed'
+            }
+          }
+        },
+        dataZoom: [
+          {
+            type: 'slider',
+            show: true,
+            start: 0,
+            end: 100
+          },
+          {
+            type: 'inside'
+          }
+        ],
+        visualMap: {
+          top: 50,
+          right: 10,
+          pieces: [
+            {
+              gt: -4,
+              lte: -2,
+              color: '#93CE07'
+            },
+            {
+              gt: -2,
+              lte: 0,
+              color: '#FBDB0F'
+            },
+            {
+              gt: 0,
+              lte: 2,
+              color: '#FC7D02'
+            },
+            {
+              gt: 2,
+              lte: 4,
+              color: '#FD0100'
+            },
+            {
+              gt: 4,
+              color: '#AA069F'
+            }
+          ],
+          outOfRange: {
+            color: '#999'
           }
         },
         series: [
           {
-            name: 'Fake Data',
+            name: '监测数据',
             type: 'line',
             showSymbol: false,
-            data: this.apiData
+            data: this.apiData,
+            markLine: {
+              silent: true,
+              lineStyle: {
+                color: '#333'
+              },
+              data: [
+                { yAxis: -4 },
+                { yAxis: -2 },
+                { yAxis: 0 },
+                { yAxis: 2 },
+                { yAxis: 4 }
+              ]
+            }
           }
         ]
-      }
-      // 基于准备好的dom，初始化echarts实例
-      var instanceByDom = this.$echarts.getInstanceByDom(window.document.getElementById('myChart'))
-      var myChart = instanceByDom === undefined ? this.$echarts.init(window.document.getElementById("myChart")) : instanceByDom
-      // 将echarts实例内的对象清空，再重新注入
-      // myChart.clear()
-      // 使用刚指定的配置项和数据显示图表。
-      myChart.setOption(option)
-      // resetSize
+      };
+
+      var instanceByDom = this.$echarts.getInstanceByDom(window.document.getElementById('myChart'));
+      var myChart = instanceByDom === undefined ? this.$echarts.init(window.document.getElementById("myChart")) : instanceByDom;
+      myChart.setOption(option);
+      this.myChart = myChart;
+      
       window.onresize = function () {
         myChart.resize();
       };
     }
-
-
   }
-
 }
 </script>
 
 <style scoped>
-#myChart{
+#myChart {
   width: 100%;
-  height: 400px;
+  height: 500px;
+  margin: 20px auto;
+}
+
+.el-button {
+  margin: 10px;
 }
 </style>

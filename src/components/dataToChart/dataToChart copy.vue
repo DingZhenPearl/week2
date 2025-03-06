@@ -152,6 +152,8 @@ export default {
           {
             name: 'Pressure',
             type: 'gauge',
+            max: 4,
+            min: -4,
             progress: {
               show: true
             },
@@ -159,6 +161,16 @@ export default {
               valueAnimation: true,
               formatter: '{value}'
             },
+            // axisLine: {       // 添加轴线样式
+            // lineStyle: {
+            //     width: 30
+            //   }   
+            // },
+            // pointer: {        // 添加指针样式
+            //   itemStyle: {
+            //     color: 'auto'
+            //   }
+            // },
             data: [
               {
                 value: this.receiveValue[this.Lineindex],
@@ -179,11 +191,6 @@ export default {
       };
 
     }
-
-
-
-
-
 
   }
 
